@@ -17,7 +17,9 @@
 package com.google.accompanist.sample.navigation.material
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +29,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -108,6 +111,12 @@ private fun BottomSheet(showFeed: () -> Unit, showAnotherSheet: () -> Unit, arg:
         }
         Button(onClick = showAnotherSheet) {
             Text("Click me to show another sheet!")
+        }
+        val context = LocalContext.current
+        BackHandler {
+            // FIXME This should always get triggered on back.
+            //  It does at first, but doesn't after the Activity is stopped+started again.
+            Toast.makeText(context, "Back pressed!", Toast.LENGTH_SHORT).show()
         }
     }
 }
